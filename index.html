@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="" ng-app="app">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+</head>
+
+<body class="container" ng-controller="GithubController as github">
+    <div class="well">
+        <h1>GitHub Profiler</h1>
+        <h3>Find out information about any GitHub user!</h3>
+    </div>
+    <div>
+        <form ng-submit="github.callGithubApi()">
+            <div class="input-group">
+                <input ng-model="github.username" type="text" class="form-control" placeholder="Enter a username..."></input>
+                <span class="input-group-btn">
+        		<button ng-click="github.callGithubApi()" class="btn btn-default" type="button">Go!</button>
+      			</span>
+            </div>
+        </form>
+    </div>
+    <div class="container" id="bodyWells">
+        <div class="row">
+            <div class="col-xs-3">
+                <img ng-src="{{github.userinfo.avatar_url}}" class="img-circle img-responsive">
+            </div>
+            <div class="col-xs-9">
+                <div class="row">
+                    <div class="col-xs-4 text-center">
+                        <div class="well">
+                            <p>Followers</p>
+                            <p>{{github.userinfo.followers}}</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <div class="well">
+                            <p>Following</p>
+                            <p>{{github.userinfo.following}}</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <div class="well">
+                            <p>Public Repositories</p>
+                            <p>{{github.userinfo.public_repos}}</p>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover col-sm-9">
+                    <tr>
+                        <th>Repositories</th>
+                        <th>URL</th>
+                    </tr>
+                    <tbody>
+                        <tr ng-repeat="data in github.reposData">
+                            <td>{{data.name}}</td>
+                            <td><a href="{{data.html_url}}">{{data.html_url}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-primary" type="button" ng-click="github.getRepos()" id="hideButton1" style="visibility: hidden;">Show Repositories</button>
+            </div>
+
+        </div>
+    </div>
+    <!-- Below picture elements-->
+    <div class="col-xs-3 text-center">
+        <div>
+            <p><b>{{github.userinfo.name}}</b> {{github.userinfo.login}}</p>
+            <p>{{github.userinfo.location}}</p>
+            <p ng-class=github.color>{{github.userinfo.hireable}}</p>
+            <p id="hide" style="visibility: hidden;">Slinging code since {{github.userinfo.created_at | date: 'MMM d, y'}}</p>
+            <a href="https://github.com/{{github.userinfo.login}}?tab=repositories">
+                <button class="btn btn-info" type="button" ng-click="github.callGithubApi()" id="hideButton" style="visibility: hidden;">Go to Repositories</button>
+            </a>
+        </div>
+        <!-- jQuery -->
+        <script src="//code.jquery.com/jquery.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="app/app.module.js"></script>
+        <script src="app/github/github.controller.js"></script>
+</body>
+
+</html>
